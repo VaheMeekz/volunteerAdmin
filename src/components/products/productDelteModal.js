@@ -24,7 +24,7 @@ const ProductDelteModal = ({open,setOpen,id}) => {
 
     const handleDelete = () => {
         axios
-            .post(`${baseUrl}/product/delete`, {
+            .post(`${baseUrl}/news/delete`, {
                 id
             }, {
                 headers: {

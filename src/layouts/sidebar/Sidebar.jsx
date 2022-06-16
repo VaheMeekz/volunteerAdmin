@@ -1,11 +1,9 @@
 import "./sidebar.scss";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {isAuthPages} from "../../utils/routing/routes";
 import {useLocation} from 'react-router-dom';
-import logo from "../../utils/images/2.png"
+import logo from "../../utils/images/logo.png"
 
 const Sidebar = () => {
     const isAuth = useSelector((state) => state.isAuthReducer.isAuth);
@@ -17,7 +15,10 @@ const Sidebar = () => {
           <span className="logo" style={{
               fontSize: "30px"
           }}>
-              <img src={logo} alt="logo"/>
+              <img src={logo} alt="logo"  style={{
+                  width: "80%",
+                  height: "32px"
+              }}/>
           </span>
             </div>
             <hr/>

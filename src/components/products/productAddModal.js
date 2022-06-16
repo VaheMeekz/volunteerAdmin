@@ -52,28 +52,24 @@ function a11yProps(index) {
 
 const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
     const [nameNewHy, setNameNewHy] = useState("");
-    const [nameNewRu, setNameNewRu] = useState("");
     const [nameNewEn, setNameNewEn] = useState("");
     const [descriptionNewHy, setDescripNewHy] = useState();
-    const [descriptionNewRu, setDescripNewRu] = useState();
     const [descriptionNewEn, setDescripNewEn] = useState();
-    const [currentCategory, setCurrentCategory] = useState();
-    const [thisImg, setThisImg] = useState([]);
+    const [subtitleHy, setSubtitleHy] = useState()
+    const [subtitleEn, setSubtitleEn] = useState()
+    const [subTextHy, setSubTextHy] = useState()
+    const [subTextEn, setSubTextEn] = useState()
+    const [secondSubTitleHy, setSecondSubTitleHy] = useState()
+    const [secondSubTitleEn, setSecondSubTitleEn] = useState()
+    const [secondSubTextHy, setSecondSubTextHy] = useState()
+    const [secondSubTextEn, setSecondSubTextEn] = useState()
+
+
+    const [thisImg, setThisImg] = useState();
     const [addValue, seAddValue] = useState(0);
-    const [video, setVideo] = useState("")
     const handleChangeAdd = (event, newValue) => {
         seAddValue(newValue);
     };
-
-    //----------------upload start
-    useEffect(() => {
-        if (thisImg.length >= 5) {
-            Swal.fire({
-                icon: "error", title: "Oops...", text: "Images is mutch!( նկարները 5֊ից ոչ շատ)",
-            });
-        }
-        console.clear()
-    }, [thisImg]);
 
     //file upload start
     const handleFile = (e) => {
@@ -95,29 +91,32 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
             .post(`https://api.cloudinary.com/v1_1/armcoding/image/upload`, formData)
             .then((res) => {
                 arrOfImages.push(res.data.url);
-                setThisImg([...thisImg, ","]);
-                setThisImg([...thisImg, res.data.url]);
+                setThisImg(res.data.url);
             });
     };
 
 
-    const handleDeleteUploadedImage = (id) => {
-        let newArr = thisImg.filter((word, index) => index !== id)
-        setThisImg(newArr)
-    }
+    // const handleDeleteUploadedImage = (id) => {
+    //     let newArr = thisImg.filter((word, index) => index !== id)
+    //     setThisImg(newArr)
+    // }
 
     const handleAddProduct = () => {
         axios
-            .post(`${baseUrl}/product`, {
-                nameHy: nameNewHy,
-                nameRu: nameNewRu,
-                nameEn: nameNewEn,
+            .post(`${baseUrl}/news`, {
+                titleHy: nameNewHy,
+                titleEn: nameNewEn,
                 descriptionHy: descriptionNewHy,
-                descriptionRu: descriptionNewRu,
                 descriptionEn: descriptionNewEn,
-                images: thisImg.toString(),
-                categoryId: currentCategory,
-                video: video
+                image: thisImg.toString(),
+                subtitleHy,
+                subtitleEn,
+                subTextHy,
+                subTextEn,
+                secondSubTitleHy,
+                secondSubTitleEn,
+                secondSubTextHy,
+                secondSubTextEn
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -139,8 +138,7 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
             });
     };
 
-    return (
-        <Modal
+    return (<Modal
             open={openAdd}
             onClose={() => setOpenAdd(false)}
             aria-labelledby="modal-modal-title"
@@ -160,8 +158,7 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
                             indicatorColor="secondary"
                         >
                             <Tab label="Hy" {...a11yProps(0)} />
-                            <Tab label="Ru" {...a11yProps(1)} />
-                            <Tab label="En" {...a11yProps(2)} />
+                            <Tab label="En" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={addValue} index={0}>
@@ -184,30 +181,44 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
                             value={descriptionNewHy}
                             onChange={(e) => setDescripNewHy(e.target.value)}
                         />
-                    </TabPanel>
-                    <TabPanel value={addValue} index={1}>
-                        <h4>Name</h4>
+                        <h4>Subtitle</h4>
                         <TextField
-                            fullWidth
                             id="outlined-basic"
                             variant="outlined"
-                            value={nameNewRu}
-                            onChange={(e) => setNameNewRu(e.target.value)}
+                            value={subtitleHy}
+                            onChange={(e) => setSubtitleHy(e.target.value)}
                         />
-                        <h4>Description</h4>
+                        <h4>Text</h4>
                         <textarea
                             id="w3review"
                             name="textHy"
                             rows="4"
-                            maxlength="400"
-                            cols="58"
+                            maxLength="400"
+                            cols="50"
                             className="textareaText"
-                            value={descriptionNewRu}
-                            onChange={(e) => setDescripNewRu(e.target.value)}
+                            value={subTextHy}
+                            onChange={(e) => setSubTextHy(e.target.value)}
                         />
-
+                        <h4>Second Subtitle</h4>
+                        <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={secondSubTitleHy}
+                            onChange={(e) => setSecondSubTitleHy(e.target.value)}
+                        />
+                        <h4>Second Text</h4>
+                        <textarea
+                            id="w3review"
+                            name="textHy"
+                            rows="4"
+                            maxLength="400"
+                            cols="50"
+                            className="textareaText"
+                            value={secondSubTextHy}
+                            onChange={(e) => setSecondSubTextHy(e.target.value)}
+                        />
                     </TabPanel>
-                    <TabPanel value={addValue} index={2}>
+                    <TabPanel value={addValue} index={1}>
                         <h4>Name</h4>
                         <TextField
                             fullWidth
@@ -227,36 +238,45 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
                             value={descriptionNewEn}
                             onChange={(e) => setDescripNewEn(e.target.value)}
                         />
+                        <h4>Subtitle</h4>
+                        <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={subtitleEn}
+                            onChange={(e) => setSubtitleEn(e.target.value)}
+                        />
+                        <h4>Text</h4>
+                        <textarea
+                            id="w3review"
+                            name="textHy"
+                            rows="4"
+                            maxLength="400"
+                            cols="50"
+                            className="textareaText"
+                            value={subTextEn}
+                            onChange={(e) => setSubTextEn(e.target.value)}
+                        />
+                        <h4>Second Subtitle</h4>
+                        <TextField
+                            id="outlined-basic"
+                            variant="outlined"
+                            value={secondSubTitleEn}
+                            onChange={(e) => setSecondSubTitleEn(e.target.value)}
+                        />
+                        <h4>Second Text</h4>
+                        <textarea
+                            id="w3review"
+                            name="textHy"
+                            rows="4"
+                            maxLength="400"
+                            cols="50"
+                            className="textareaText"
+                            value={secondSubTextEn}
+                            onChange={(e) => setSecondSubTextEn(e.target.value)}
+                        />
                     </TabPanel>
                 </Box>
                 <Box>
-                    <h4 style={{
-                        marginBottom: "10px"
-                    }}>Category</h4>
-                    <FormControl fullWidth>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={currentCategory}
-                            label="Age"
-                            onChange={(e) => setCurrentCategory(e.target.value)}
-                        >
-                            {categories && categories.map((i) => {
-                                return (<MenuItem key={i.id} value={i.id}>
-                                    {i.nameHy}
-                                </MenuItem>);
-                            })}
-                        </Select>
-                    </FormControl>
-                </Box>
-
-                <Box style={{
-                    margin: "20px 0"
-                }}>
-                    <TextField label="Video URL" variant="outlined" value={video}
-                               onChange={e => setVideo(e.target.value)} fullWidth/>
-                </Box>
-                <Box>  
                     <div className="uploadBtns">
                         <Button color="secondary" variant="contained" component="label">
                             Upload Image
@@ -264,24 +284,16 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
                         </Button>
                     </div>
                     <div>
-                        {thisImg.length ? thisImg.map((i, index) => {
-                            return (
-                                <div>
-                                    <img
-                                        key={i.toString()}
-                                        src={i}
-                                        alt="newImage"
-                                        width={100}
-                                        height={100}
-                                        style={{margin: "10px"}}
-                                    />
-                                    <Button variant="outlined" color="secondary"
-                                            onClick={() => handleDeleteUploadedImage(index)}>Delete This
-                                        Image</Button>
-                                </div>
-                            );
-                        }) : null}
-                        {thisImg.length >= 5 && (<h3 className="errorText">Նկարները շատ են 5֊ից</h3>)}
+                        {thisImg && (<div>
+                                <img
+                                    src={thisImg}
+                                    alt="newImage"
+                                    width={100}
+                                    height={100}
+                                    style={{margin: "10px"}}
+                                />
+
+                            </div>)}
                     </div>
                 </Box>
                 <DialogActions>
@@ -290,8 +302,7 @@ const ProductAddModal = ({openAdd, setOpenAdd, categories}) => {
                     </Button>
                 </DialogActions>
             </Box>
-        </Modal>
-    );
+        </Modal>);
 };
 
 export default ProductAddModal;

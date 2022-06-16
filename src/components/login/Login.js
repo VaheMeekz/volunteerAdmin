@@ -46,7 +46,7 @@ const Login = () => {
                   dispatch(thchangeAuAC(true));
                   localStorage.setItem('myToken',JSON.stringify(response.data.admin.token))
                   localStorage.setItem('email',JSON.stringify(response.data.admin.email))
-                  window.location.href='/products'
+                  window.location.href='/news'
                 }
               })
               .catch(function (error) {

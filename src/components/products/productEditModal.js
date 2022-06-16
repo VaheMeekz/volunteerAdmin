@@ -67,25 +67,39 @@ function a11yProps(index) {
 const ProductEditModal = ({openEdit, setOpenEdit, currentId, row}) => {
     //-------states
     const [nameHy, setNameHy] = useState();
-    const [nameRu, setNameRu] = useState();
     const [nameEn, setNameEn] = useState();
     const [descriptionHy, setDescripHy] = useState();
-    const [descriptionRu, setDescripRu] = useState();
     const [descriptionEn, setDescripEn] = useState();
+    const [subtitleHy,setSubtitleHy] = useState()
+    const [subtitleEn,setSubtitleEn] = useState()
+    const [subTextHy,setSubTextHy] = useState()
+    const [subTextEn,setSubTextEn] = useState()
+    const [secondSubTitleHy,setSecondSubTitleHy] = useState()
+    const [secondSubTitleEn,setSecondSubTitleEn] = useState()
+    const [secondSubTextHy,setSecondSubTextHy] = useState()
+    const [secondSubTextEn,setSecondSubTextEn] = useState()
     const [image, setImage] = useState();
     const [value, setValue] = useState(0);
-    const [video,setVideo] = useState()
     //-------states end
 
     useEffect(() => {
-        openEdit && setNameHy(row.nameHy);
-        openEdit && setNameRu(row.nameRu);
-        openEdit && setNameEn(row.nameEn);
+        openEdit && setNameHy(row.titleHy);
+        openEdit && setNameEn(row.titleEn);
         openEdit && setDescripHy(row.descriptionHy);
-        openEdit && setDescripRu(row.descriptionRu);
         openEdit && setDescripEn(row.descriptionEn);
-        openEdit && setImage(row?.ProductImages);
-        openEdit && setVideo(row?.video);
+
+        openEdit && setSubtitleHy(row.subtitleHy);
+        openEdit && setSubtitleEn(row.subtitleEn);
+        openEdit && setSubTextHy(row.subTextHy);
+        openEdit && setSubTextEn(row.subTextEn);
+
+
+        openEdit && setSecondSubTitleHy(row.secondSubTitleHy);
+        openEdit && setSecondSubTitleEn(row.secondSubTitleEn);
+        openEdit && setSecondSubTextHy(row.secondSubTextHy);
+        openEdit && setSecondSubTextEn(row.secondSubTextEn);
+
+        openEdit && setImage(row?.image);
     }, [row])
 
     const handleFileEdit = (e, index) => {
@@ -107,226 +121,212 @@ const ProductEditModal = ({openEdit, setOpenEdit, currentId, row}) => {
             .post(`https://api.cloudinary.com/v1_1/armcoding/image/upload`, formData)
             .then((res) => {
                 arrOfImagesEdit.push(res.data.url);
-                axios
-                    .post(`${baseUrl}/product/addImage`, {
-                        productId:row.id,
-                        image:res.data.url,
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    })
-                    .then(function (response) {
-                        if (!response.data.error) {
-                            Swal.fire({
-                                position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
-                            });
-                            setOpenEdit(false);
-                            setTimeout(() => {
-                                window.location.reload(false);
-                            }, 500);
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                setImage(res.data.url)
             });
 
-};
+    };
 
-const handleChange = (event, newValue) => {
-    setValue(newValue);
-};
-const handleEdit = () => {
-    axios
-        .post(`${baseUrl}/product/edit`, {
-            id: currentId,
-            nameHy,
-            nameRu,
-            nameEn,
-            descriptionHy,
-            descriptionRu,
-            descriptionEn,
-            video
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then(function (response) {
-            if (!response.data.error) {
-                Swal.fire({
-                    position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
-                });
-                setOpenEdit(false);
-                setTimeout(() => {
-                    window.location.reload(false);
-                }, 500);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-};
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    const handleEdit = () => {
+        axios
+            .post(`${baseUrl}/news/edit`, {
+                id: currentId,
+                image,
+                titleHy:nameHy,
+                titleEn:nameEn,
+                descriptionHy,
+                descriptionEn,
+                subtitleHy,
+                subtitleEn,
+                subTextHy,
+                subTextEn,
+                secondSubTitleHy,
+                secondSubTitleEn,
+                secondSubTextHy,
+                secondSubTextEn
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(function (response) {
+                if (!response.data.error) {
+                    Swal.fire({
+                        position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
+                    });
+                    setOpenEdit(false);
+                    setTimeout(() => {
+                        window.location.reload(false);
+                    }, 500);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
 
-const deleteImage = (id) => {
-    axios
-        .post(`${baseUrl}/product/deleteImage`, {
-            id
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then(function (response) {
-            if (!response.data.error) {
-                Swal.fire({
-                    position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
-                });
-                setOpenEdit(false);
-                setTimeout(() => {
-                    window.location.reload(false);
-                }, 500);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-return (
-    <div>
-        <Modal
-            open={openEdit}
-            onClose={() => setOpenEdit(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Edit
-                </Typography>
-                <Box sx={{width: "100%"}}>
-                    <Box sx={{borderBottom: 1, borderColor: "divider"}}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            aria-label="basic tabs example"
-                            textColor="secondary"
-                            indicatorColor="secondary"
-                        >
-                            <Tab label="Hy" {...a11yProps(0)} />
-                            <Tab label="Ru" {...a11yProps(1)} />
-                            <Tab label="En" {...a11yProps(2)} />
-                        </Tabs>
+    return (
+        <div>
+            <Modal
+                open={openEdit}
+                onClose={() => setOpenEdit(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Edit
+                    </Typography>
+                    <Box sx={{width: "100%"}}>
+                        <Box sx={{borderBottom: 1, borderColor: "divider"}}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                aria-label="basic tabs example"
+                                textColor="secondary"
+                                indicatorColor="secondary"
+                            >
+                                <Tab label="Hy" {...a11yProps(0)} />
+                                <Tab label="En" {...a11yProps(1)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={value} index={0}>
+                            <h4>Title</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={nameHy}
+                                onChange={(e) => setNameHy(e.target.value)}
+                            />
+                            <h4>Description</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxlength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={descriptionHy}
+                                onChange={(e) => setDescripHy(e.target.value)}
+                            />
+                            <h4>Subtitle</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={subtitleHy}
+                                onChange={(e) => setSubtitleHy(e.target.value)}
+                            />
+                            <h4>Text</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxLength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={subTextHy}
+                                onChange={(e) => setSubTextHy(e.target.value)}
+                            />
+                            <h4>Second Subtitle</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={secondSubTitleHy}
+                                onChange={(e) => setSecondSubTitleHy(e.target.value)}
+                            />
+                            <h4>Second Text</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxLength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={secondSubTextHy}
+                                onChange={(e) => setSecondSubTextHy(e.target.value)}
+                            />
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <h4>Name</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={nameEn}
+                                onChange={(e) => setNameEn(e.target.value)}
+                            />
+                            <h4>Description</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxlength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={descriptionEn}
+                                onChange={(e) => setDescripEn(e.target.value)}
+                            />
+                            <h4>Subtitle</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={subtitleEn}
+                                onChange={(e) => setSubtitleEn(e.target.value)}
+                            />
+                            <h4>Text</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxLength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={subTextEn}
+                                onChange={(e) => setSubTextEn(e.target.value)}
+                            />
+                            <h4>Second Subtitle</h4>
+                            <TextField
+                                id="outlined-basic"
+                                variant="outlined"
+                                value={secondSubTitleEn}
+                                onChange={(e) => setSecondSubTitleEn(e.target.value)}
+                            />
+                            <h4>Second Text</h4>
+                            <textarea
+                                id="w3review"
+                                name="textHy"
+                                rows="4"
+                                maxLength="400"
+                                cols="50"
+                                className="textareaText"
+                                value={secondSubTextEn}
+                                onChange={(e) => setSecondSubTextEn(e.target.value)}
+                            />
+                        </TabPanel>
                     </Box>
-                    <TabPanel value={value} index={0}>
-                        <h4>Name</h4>
-                        <TextField
-                            id="outlined-basic"
-                            variant="outlined"
-                            value={nameHy}
-                            onChange={(e) => setNameHy(e.target.value)}
-                        />
-                        <h4>Description</h4>
-                        <textarea
-                            id="w3review"
-                            name="textHy"
-                            rows="4"
-                            maxlength="400"
-                            cols="50"
-                            className="textareaText"
-                            value={descriptionHy}
-                            onChange={(e) => setDescripHy(e.target.value)}
-                        />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <h4>Name</h4>
-                        <TextField
-                            id="outlined-basic"
-                            variant="outlined"
-                            value={nameRu}
-                            onChange={(e) => setNameRu(e.target.value)}
-                        />
-                        <h4>Description</h4>
-                        <textarea
-                            id="w3review"
-                            name="textHy"
-                            rows="4"
-                            maxlength="400"
-                            cols="50"
-                            className="textareaText"
-                            value={descriptionRu}
-                            onChange={(e) => setDescripRu(e.target.value)}
-                        />
-
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        <h4>Name</h4>
-                        <TextField
-                            id="outlined-basic"
-                            variant="outlined"
-                            value={nameEn}
-                            onChange={(e) => setNameEn(e.target.value)}
-                        />
-                        <h4>Description</h4>
-                        <textarea
-                            id="w3review"
-                            name="textHy"
-                            rows="4"
-                            maxlength="400"
-                            cols="50"
-                            className="textareaText"
-                            value={descriptionEn}
-                            onChange={(e) => setDescripEn(e.target.value)}
-                        />
-                    </TabPanel>
+                    <Box style={{margin: "10px 0"}}>
+                        <Button color="secondary" variant="contained" component="label">
+                            Edit Image
+                            <input type="file" hidden multiple onChange={handleFileEdit}/>
+                        </Button>
+                    </Box>
+                    <Box>
+                        <img src={image} alt="image" style={{width: "200px", height: "200px"}}/>
+                    </Box>
+                    <Box>
+                        <Button color="secondary" variant="contained" onClick={handleEdit}>Edit</Button>
+                    </Box>
                 </Box>
-                <Box>
-                    <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        value={video}
-                        onChange={(e) => setVideo(e.target.value)}
-                        fullWidth
-                    />
-                </Box>
-                <Box style={{margin: "10px 0"}}>
-                    <Button color="secondary" variant="contained" component="label">
-                        Add new image
-                        <input type="file" hidden multiple onChange={handleFileEdit}/>
-                    </Button>
-                </Box>
-                <Box>
-                    {
-                        image?.map(i => {
-                            return (
-                                <div key={i.id}>
-                                    <div><img src={i.image} alt="image" style={{width: "200px", height: "200px"}}/>
-                                    </div>
-                                    <div style={{margin: "10px 0"}}>
-                                        <ChildModal id={i.id}/>
-                                    </div>
-                                    <div style={{margin: "10px 0"}}><Button variant="contained" color="secondary"
-                                                                            onClick={() => deleteImage(i.id)}>Delete</Button>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </Box>
-                <Box>
-                    <Button color="secondary" variant="contained" onClick={handleEdit}>Edit</Button>
-                </Box>
-            </Box>
-        </Modal>
-    </div>
-);
+            </Modal>
+        </div>
+    );
 }
 
 
 function ChildModal({id}) {
     const [open, setOpen] = React.useState(false);
-    const [image,setImage] = useState(null)
+    const [image, setImage] = useState(null)
     const handleOpen = () => {
         setOpen(true);
     };
@@ -356,31 +356,6 @@ function ChildModal({id}) {
             });
 
     };
-    const addImage = () => {
-        axios
-            .post(`${baseUrl}/product/editImage`, {
-                id,
-                img:image
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then(function (response) {
-                if (!response.data.error) {
-                    Swal.fire({
-                        position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
-                    });
-                    setOpen(false);
-                    setTimeout(() => {
-                        window.location.reload(false);
-                    }, 500);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
 
     return (
         <React.Fragment>
@@ -396,22 +371,22 @@ function ChildModal({id}) {
                 <Box sx={childStyles}>
                     <h2 id="child-modal-title">Edit Image</h2>
                     <Button color="secondary" variant="contained" component="label">
-                        Add new image
+                        Edit Image
                         <input type="file" hidden multiple onChange={handleFileEdit}/>
                     </Button>
                     {
                         image !== null && (
                             <div>
-                                <img src={image} alt="image" style={{width:"150px",height:"150px"}}/>
-                                <Button color="secondary" variant="contained" onClick={addImage}>Add</Button>
-                        </div>
+                                <img src={image} alt="image" style={{width: "150px", height: "150px"}}/>
+                                {/*<Button color="secondary" variant="contained" onClick={addImage}>Add</Button>*/}
+                            </div>
                         )
                     }
                     <Box style={{
-                        marginTop:"50px"
+                        marginTop: "50px"
                     }}>
                         <Button color="secondary" variant="contained" component="label" onClick={handleClose}>
-                           Close
+                            Close
                         </Button>
                     </Box>
                 </Box>

@@ -2,7 +2,6 @@ import { GET_ORDERS } from "../types";
 
 const initialState = {
   orders: null,
-  count:null
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -10,8 +9,7 @@ export const orderReducer = (state = initialState, action) => {
       case GET_ORDERS:
           return {
               ...state,
-              orders:action.payload.posts,
-              count:action.payload.count
+              orders:action.payload,
           }
     default:
       return state;

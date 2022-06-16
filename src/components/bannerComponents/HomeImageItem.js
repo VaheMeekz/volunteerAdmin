@@ -44,10 +44,10 @@ function a11yProps(index) {
 
 const HomeImageItem = ({data}) => {
     const [value, setValue] = React.useState(0);
-    const [textHy, setTextHy] = useState(data?.textHy)
-    const [textRu, setTextRu] = useState(data?.textRu)
-    const [textEn, setTextEn] = useState(data?.textEn)
-    const [image, setImage] = useState(data?.image)
+    const [textHy, setTextHy] = useState(data?.titleHy)
+    // const [textRu, setTextRu] = useState(data?.textRu)
+    const [textEn, setTextEn] = useState(data?.titleEn)
+    const [image, setImage] = useState(data?.video)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -78,9 +78,9 @@ const HomeImageItem = ({data}) => {
     const handleSubmit = () => {
         axios
             .post(
-                `${baseUrl}/homeBanner/editSlide`,
+                `${baseUrl}/homeBanner/edit`,
                 {
-                    id: data.id, image, textHy, textRu, textEn
+                    id: data.id, video:image, titleHy:textHy, titleEn:textEn
                 },
                 {
                     headers: {
@@ -110,8 +110,7 @@ const HomeImageItem = ({data}) => {
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Hy" {...a11yProps(0)} />
-                        <Tab label="Ru" {...a11yProps(1)} />
-                        <Tab label="En" {...a11yProps(2)} />
+                        <Tab label="En" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -128,19 +127,6 @@ const HomeImageItem = ({data}) => {
                      />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                     <textarea
-                         id="w3review"
-                         name="textHy"
-                         rows="8"
-                         value={textRu}
-                         onChange={(e) => setTextRu(e.target.value)}
-                         maxLength="600"
-                         cols="60"
-                         defaultValue={data?.length == 0 ? null : data?.textRu}
-                         className="textareaText"
-                     />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
                     <textarea
                         id="w3review"
                         name="textHy"
@@ -157,7 +143,10 @@ const HomeImageItem = ({data}) => {
                     {
                         image && (
                             <div>
-                                <img src={image} alt="banner"/>
+                                <img src={image} alt="banner" style={{
+                                    width:"400px",
+                                    height:"250px"
+                                }}/>
                                 <Button color="secondary" variant="contained" component="label" style={{
                                     margin: "0 17px 35px 43px"
                                 }}>

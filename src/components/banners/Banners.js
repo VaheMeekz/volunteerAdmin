@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {Box} from "@mui/material";
 import AboutBanner from "../bannerComponents/AboutUsBanner";
 import HomeBanner from "../bannerComponents/HomeBanner";
+
 const Banners = () => {
     useEffect(() => console.clear(), [])
     return (
@@ -10,8 +11,8 @@ const Banners = () => {
                 Banners Settings
             </h1>
             <HomeBanner/>
-            <hr/>
-            <AboutBanner/>
+            {/*<hr/>*/}
+            {/*<AboutBanner/>*/}
         </Box>
     );
 };

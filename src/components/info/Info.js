@@ -108,14 +108,14 @@ const Info = () => {
                     </div>
                     <hr className="hr"/>
                     <div>
-                        <h4>Instagram</h4>
+                        <h4>Linkedin</h4>
                         <TextField
                             id="standard-basic"
                             label="instagram"
-                            name="instagram"
+                            name="linkedin"
                             onChange={handleChange}
                             variant="standard"
-                            defaultValue={infoData !== null && infoData.instagram}
+                            defaultValue={infoData !== null && infoData.linkedin}
                         />
                     </div>
 

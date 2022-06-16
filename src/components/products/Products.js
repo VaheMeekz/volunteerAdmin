@@ -17,7 +17,6 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
-import {getCategoryThunk} from "../../store/actions/categoryAction";
 import AddIcon from "@mui/icons-material/Add";
 import "../aboutUs/aboutUs.scss";
 import ProductDelteModal from "./productDelteModal";
@@ -27,7 +26,6 @@ const Products = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productReducer.products);
     const count = useSelector((state) => state.productReducer.count);
-    const categories = useSelector((state) => state?.categoryReducer.category);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDel, setOpenDelete] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
@@ -41,11 +39,6 @@ const Products = () => {
         useEffect(() => {
         dispatch(getProductsThunk(page, limit, search));
     }, [page, limit, search]);
-
-    useEffect(() => {
-        dispatch(getCategoryThunk());
-    }, []);
-
     useEffect(() => {
         if (count) {
             setPages(makeArray(Math.ceil(count / limit)));
@@ -57,6 +50,7 @@ const Products = () => {
             window.scrollTo({top: 0, left: 0, behavior: 'smooth' });
         },100)
     }, [page]);
+
     useEffect(() => {
         setData(products);
     }, [products]);
@@ -68,7 +62,7 @@ const Products = () => {
     };
     return (<Box m={3} className="boxHeigth">
         <h2 mt={3} mb={3}>
-            Products
+            News
         </h2>
         <hr/>
         <Box style={{margin: "10px"}}>
@@ -87,11 +81,9 @@ const Products = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Image</TableCell>
-                            <TableCell align="left">Name Hy</TableCell>
-                            <TableCell align="left">Name Ru</TableCell>
-                            <TableCell align="left">Name En</TableCell>
+                            <TableCell align="left">Title Hy</TableCell>
+                            <TableCell align="left">Title En</TableCell>
                             <TableCell align="left">Description Hy</TableCell>
-                            <TableCell align="left">Description Ru</TableCell>
                             <TableCell align="left">Description En</TableCell>
                             <TableCell align="left">Created/Updated</TableCell>
                             <TableCell align="left">Edit</TableCell>
@@ -105,18 +97,16 @@ const Products = () => {
                         >
                             <TableCell align="left">
                                 <img
-                                    src={row.ProductImages[0]?.image}
+                                    src={row.image}
                                     alt="image"
                                     width={150}
                                     height={80}
                                 />
                             </TableCell>
-                            <TableCell align="left">{row.nameHy}</TableCell>
-                            <TableCell align="left">{row.nameRu}</TableCell>
-                            <TableCell align="left">{row.nameEn}</TableCell>
-                            <TableCell align="left">{row.descriptionHy}</TableCell>
-                            <TableCell align="left">{row.descriptionRu}</TableCell>
-                            <TableCell align="left">{row.descriptionEn}</TableCell>
+                            <TableCell align="left">{row.titleHy}</TableCell>
+                            <TableCell align="left">{row.titleEn}</TableCell>
+                            <TableCell align="left">{row.descriptionHy.slice(0,200)}</TableCell>
+                            <TableCell align="left">{row.descriptionEn.slice(0,200)}</TableCell>
                             <TableCell align="left">
                                 {row.createdAt.substr(0, 10)}
                             </TableCell>
@@ -130,7 +120,7 @@ const Products = () => {
                                     setOpenDelete(true);
                                     setCurrentId(row.id);
                                 }} autoFocus>
-                                    <DeleteIcon className="iconsPreferances"/>
+                                    <DeleteIcon/>
                                 </Button>
                             </TableCell>
                         </TableRow>))}
@@ -174,7 +164,7 @@ const Products = () => {
             )}
             <ProductEditModal openEdit={openEdit} setOpenEdit={setOpenEdit} row={row} currentId={currentId} />
             <ProductDelteModal open={openDel} setOpen={setOpenDelete} id={currentId}/>
-            <ProductAddModal openAdd={openAdd} setOpenAdd={setOpenAdd} categories={categories}/>
+            <ProductAddModal openAdd={openAdd} setOpenAdd={setOpenAdd}/>
         </Box>
     </Box>);
 };

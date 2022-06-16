@@ -2,6 +2,7 @@ import { GET_CATEGORY } from "../types";
 
 const initialState = {
   category: null,
+  count:null
 };
 
 export const categoryReducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ export const categoryReducer = (state = initialState, action) => {
     case GET_CATEGORY:
       return {
         ...state,
-        category: action.payload,
+        category: action.payload.news,
+        count: action.payload.count,
       };
     default:
       return state;
