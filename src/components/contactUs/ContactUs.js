@@ -142,7 +142,10 @@ const ContactUs = () => {
                 <strong>#</strong>
               </TableCell>
               <TableCell align="left">
-                <strong>name</strong>
+                <strong>First name</strong>
+              </TableCell>
+              <TableCell align="left">
+                <strong>Last name</strong>
               </TableCell>
               <TableCell align="left">
                 <strong>email</strong>
@@ -172,7 +175,10 @@ const ContactUs = () => {
                     {index + 1}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.firstName}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.lastName}
                   </TableCell>
                   <TableCell align="left">{row.email}</TableCell>
                   <TableCell align="left">{row.subject}</TableCell>
@@ -264,8 +270,8 @@ const ContactUs = () => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleSendAnswer} autoFocus>
+            <Button color="secondary" variant="outlined" onClick={handleClose}>Disagree</Button>
+            <Button color="secondary" variant="outlined" onClick={handleSendAnswer} autoFocus>
               Send
             </Button>
           </DialogActions>
@@ -279,8 +285,8 @@ const ContactUs = () => {
           <DialogTitle id="alert-dialog-title">{"Delete ?"}</DialogTitle>
           <DialogContent></DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseDlete}>No</Button>
-            <Button onClick={handelDelete} autoFocus>
+            <Button color="secondary" variant="outlined" onClick={handleCloseDlete}>No</Button>
+            <Button color="secondary" variant="outlined" onClick={handelDelete} autoFocus>
               Yes
             </Button>
           </DialogActions>

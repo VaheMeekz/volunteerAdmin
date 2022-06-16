@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {Button} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getAboutUsInfoThunk,
@@ -55,13 +55,12 @@ const AboutUs = () => {
     const aboutUsData = useSelector((state) => state?.aboutUsReducer.aboutUs);
     const aboutUsInfo = useSelector((state) => state.aboutUsReducer.aboutUsInfo);
     const [value, setValue] = React.useState(0);
-    const [imageOne, setImageOne] = useState(null)
-    const [imageTwo, setImageTwo] = useState(null)
-    const [thisImg, setThisImg] = useState(null);
+    const [image,setImage] = useState()
     //values
     const [subTitleHy, setSubTitleHy] = useState("");
-    const [subTitleRu, setSubTitleRu] = useState("");
     const [subTitleEn, setSubTitleEn] = useState("");
+    const [textHy,setTextHy] = useState()
+    const [textEn,setTextEn] = useState()
     //
     useEffect(() => {
         dispatch(getAboutUsThunk());
@@ -70,13 +69,15 @@ const AboutUs = () => {
     }, []);
 
     useEffect(() => {
-        setSubTitleHy(aboutUsData && aboutUsData.textHy);
-        setSubTitleRu(aboutUsData && aboutUsData.textRu);
-        setSubTitleEn(aboutUsData && aboutUsData.textEn);
-        setImageOne(aboutUsData && aboutUsData.imgOne);
-        setImageTwo(aboutUsData && aboutUsData.imgTwo);
-        console.clear()
+        setSubTitleHy(aboutUsData && aboutUsData.titleHy);
+        setSubTitleEn(aboutUsData && aboutUsData.titleEn);
+        setTextHy(aboutUsData && aboutUsData.textHy)
+        setTextEn(aboutUsData && aboutUsData.textEn)
+        setImage(aboutUsData && aboutUsData.image)
+
     }, [aboutUsData, aboutUsInfo]);
+
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -86,13 +87,11 @@ const AboutUs = () => {
     const handleSubmit = () => {
         axios
             .post(
-                `${baseUrl}/aboutUs/editUp`,
+                `${baseUrl}/homeAbout/edit`,
                 {
-                    textHy: subTitleHy,
-                    textEn: subTitleEn,
-                    textRu: subTitleRu,
-                    imgOne: imageOne,
-                    imgTwo: imageTwo
+                    titleHy: subTitleHy,
+                    titleEn: subTitleEn,
+                    textHy,textEn,image
                 },
                 {
                     headers: {
@@ -134,32 +133,10 @@ const AboutUs = () => {
             .post(`https://api.cloudinary.com/v1_1/armcoding/image/upload`, formData)
             .then((res) => {
                 arrOfImages.push(res.data.url);
-                setImageOne(res.data.url);
+                setImage(res.data.url)
             });
     };
 
-    const handleFileTwo = (e) => {
-        let files = [];
-        Object.keys(e.target.files).map((f) => {
-            if (f === "Length") return;
-            files.push(e.target.files[0]);
-        });
-        uploadImageTwo(files);
-    };
-
-    let arrOfImagesTwo = [];
-    const uploadImageTwo = (files) => {
-        const formData = new FormData();
-        formData.append("file", files[0]);
-        formData.append("upload_preset", "armcodingImage");
-        formData.append("cloud_name", "armcoding");
-        axios
-            .post(`https://api.cloudinary.com/v1_1/armcoding/image/upload`, formData)
-            .then((res) => {
-                arrOfImagesTwo.push(res.data.url);
-                setImageTwo(res.data.url);
-            });
-    };
 
     return (
         <Box m={3} className="boxHeigth">
@@ -179,11 +156,16 @@ const AboutUs = () => {
                         indicatorColor="secondary"
                     >
                         <Tab label="Arm" {...a11yProps(0)} />
-                        <Tab label="Ru" {...a11yProps(1)} />
-                        <Tab label="En" {...a11yProps(2)} />
+                        <Tab label="En" {...a11yProps(1)} />
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
+                    <h3 mt={3} mb={3} style={{
+                        margin: "10px 0 10px 0"
+                    }}>
+                        Title
+                    </h3>
+                    <TextField value={subTitleHy} onChange={e=>setSubTitleHy(e.target.value)} variant="outlined" />
                     <h3 mt={3} mb={3} style={{
                         margin: "10px 0 10px 0"
                     }}>
@@ -193,16 +175,21 @@ const AboutUs = () => {
                         id="w3review"
                         name="textHy"
                         rows="8"
-                        value={subTitleHy}
-                        onChange={(e) => setSubTitleHy(e.target.value)}
+                        value={textHy}
+                        onChange={(e) => setTextHy(e.target.value)}
                         maxLength="600"
                         cols="60"
-                        defaultValue={aboutUsData.length == 0 ? null : aboutUsData.textHy}
                         className="textareaText"
                     />
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
+                    <h3 mt={3} mb={3} style={{
+                        margin: "10px 0 10px 0"
+                    }}>
+                        Title
+                    </h3>
+                    <TextField value={subTitleEn} onChange={e=>setSubTitleEn(e.target.value)} variant="outlined" />
                     <h3 mt={3} mb={3} style={{
                         margin: "10px 0 10px 0"
                     }}>
@@ -212,38 +199,19 @@ const AboutUs = () => {
                         id="w3review"
                         name="textRu"
                         rows="8"
-                        value={subTitleRu}
-                        onChange={(e) => setSubTitleRu(e.target.value)}
                         maxLength="600"
-                        defaultValue={aboutUsData.length == 0 ? null : aboutUsData.textRu}
                         cols="60"
                         className="textareaText"
-                    />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <h3 mt={3} mb={3} style={{
-                        margin: "10px 0 10px 0"
-                    }}>
-                        Text
-                    </h3>
-                    <textarea
-                        id="w3review"
-                        name="textEn"
-                        value={subTitleEn}
-                        onChange={(e) => setSubTitleEn(e.target.value)}
-                        rows="8"
-                        maxLength="600"
-                        defaultValue={aboutUsData.length == 0 ? null : aboutUsData.textEn}
-                        cols="60"
-                        className="textareaText"
+                        value={textEn}
+                        onChange={(e) => setTextEn(e.target.value)}
                     />
                 </TabPanel>
             </Box>
-            <Box m={2}>
+            <Box>
                 {
-                    imageOne !== null && (
+                    image && (
                         <div>
-                            <img src={imageOne} alt="one" style={{width: "150px", height: "150px"}}/>
+                            <img src={image} alt="image"/>
                             <Button color="secondary" variant="contained" component="label" style={{
                                 margin: "0 17px 35px 43px"
                             }}>
@@ -254,25 +222,10 @@ const AboutUs = () => {
                     )
                 }
             </Box>
-            <Box m={2}>
-                {
-                    imageTwo !== null && (
-                        <div>
-                            <img src={imageTwo} alt="one" style={{width: "150px", height: "150px"}}/>
-                            <Button color="secondary" variant="contained" component="label" style={{
-                                margin: "0 17px 35px 43px"
-                            }}>
-                                Edit
-                                <input type="file" hidden multiple onChange={handleFileTwo}/>
-                            </Button>
-                        </div>
-                    )
-                }
-            </Box>
             <Button color="secondary" variant="contained" onClick={handleSubmit}>
                 Submit
             </Button>
-            <AboutUsDown data={aboutUsInfo[0]}/>
+            <AboutUsDown data={aboutUsInfo}/>
         </Box>
     );
 };

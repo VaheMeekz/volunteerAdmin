@@ -4,17 +4,17 @@ import { GET_ABOUT_US, GET_ABOUT_US_INFO } from "../types";
 
 export const getAboutUsThunk = () => {
   return async (dispatch) => {
-    const response = await axios.get(`${baseUrl}/aboutUs/up`);
+    const response = await axios.get(`${baseUrl}/homeAbout`);
     dispatch({
       type: GET_ABOUT_US,
-      payload: response.data[0],
+      payload: response.data,
     });
   };
 };
 
 export const getAboutUsInfoThunk = () => {
   return async (dispatch) => {
-    const response = await axios.get(`${baseUrl}/aboutUs/down`);
+    const response = await axios.get(`${baseUrl}/aboutUs`);
     dispatch({
       type: GET_ABOUT_US_INFO,
       payload: response.data,
