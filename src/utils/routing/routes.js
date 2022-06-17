@@ -15,7 +15,7 @@ import {
     INFO_PAGE,
     LOGIN_PAGE,
     NOTFOUND_PAGE, ORDERS_PAGE, PARTNER_PAGE,
-    PRODUCT_PAGE,
+    PRODUCT_PAGE, PROJECT_PAGE,
 } from "./urls";
 import CategoryIcon from '@mui/icons-material/Category';
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -26,21 +26,24 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import Admins from "../../components/admins/Admins";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import Subscribers from "../../components/subscribers/subscribers";
+import Users from "../../components/users/Users";
+
 export const isAuthPages = [
-    {id: 2, path: PRODUCT_PAGE, name: "News", Component: Products,icon:<DashboardIcon/>},
-    {id: 8, path: CATEGORY_PAGE, name: "Works", Component: Category,icon:<CategoryIcon/>},
-    {id: 1, path: ORDERS_PAGE, name: "What we do ", Component: Orders,icon:<CategoryIcon/>},
-    {id: 3, path: ABOUTUS_PAGE, name: "About Us", Component: AboutUs,icon:<InfoIcon/>},
-    {id: 6, path: BANNERS_PAGE, name: "Banners", Component: Banners,icon:<InsertPhotoIcon/>},
-    {id: 4, path: CONTACTS_PAGE, name: "Contact Us", Component: ContactUs,icon:<InfoIcon/>},
-    {id: 7, path: INFO_PAGE, name: "Info", Component: Info,icon:<InfoIcon/>},
-    {id:13,path: ADMIN_PAGE,name:"Admins",Component:Admins,icon: <AutoFixHighIcon/>},
-    {id:189,path: PARTNER_PAGE,name:"Partners",Component:Subscribers,icon: <BuildIcon/>}
+    {id: 2, path: PRODUCT_PAGE, name: "News", Component: Products, icon: <DashboardIcon/>},
+    {id: 8, path: CATEGORY_PAGE, name: "Works", Component: Category, icon: <CategoryIcon/>},
+    {id: 156, path: PROJECT_PAGE, name: "Project", Component: Users, icon: <DashboardIcon/>},
+    {id: 3, path: ABOUTUS_PAGE, name: "About Us", Component: AboutUs, icon: <InfoIcon/>},
+    {id: 1, path: ORDERS_PAGE, name: "What we do ", Component: Orders, icon: <CategoryIcon/>},
+    {id: 6, path: BANNERS_PAGE, name: "Banners", Component: Banners, icon: <InsertPhotoIcon/>},
+    {id: 4, path: CONTACTS_PAGE, name: "Contact Us", Component: ContactUs, icon: <InfoIcon/>},
+    {id: 7, path: INFO_PAGE, name: "Info", Component: Info, icon: <InfoIcon/>},
+    {id: 13, path: ADMIN_PAGE, name: "Admins", Component: Admins, icon: <AutoFixHighIcon/>},
+    {id: 189, path: PARTNER_PAGE, name: "Partners", Component: Subscribers, icon: <BuildIcon/>},
+
 ];
 
-
 export const isntAuthPages = [
-    {id: 1, path: LOGIN_PAGE, name: "Login", Component: Login,icon:<LockOpenIcon/>},
+    {id: 1, path: LOGIN_PAGE, name: "Login", Component: Login, icon: <LockOpenIcon/>},
 ];
 
 export const notFoundPages = [

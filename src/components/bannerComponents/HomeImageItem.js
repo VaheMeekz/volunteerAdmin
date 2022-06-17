@@ -45,7 +45,6 @@ function a11yProps(index) {
 const HomeImageItem = ({data}) => {
     const [value, setValue] = React.useState(0);
     const [textHy, setTextHy] = useState(data?.titleHy)
-    // const [textRu, setTextRu] = useState(data?.textRu)
     const [textEn, setTextEn] = useState(data?.titleEn)
     const [image, setImage] = useState(data?.video)
     const handleChange = (event, newValue) => {

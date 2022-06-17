@@ -2,7 +2,6 @@ import { GET_USERS } from "../types"
 
 const initialState = {
     users:null,
-    count:null
 }
 
 
@@ -11,8 +10,7 @@ export const usersReducer = (state=initialState,action) => {
         case GET_USERS:
             return {
                 ...state,
-                users:action.payload.users,
-                count:action.payload.count
+                users:action.payload,
             }
         default:
             return state
