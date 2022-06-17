@@ -14,7 +14,7 @@ import {
     CONTACTS_PAGE,
     INFO_PAGE,
     LOGIN_PAGE,
-    NOTFOUND_PAGE, ORDERS_PAGE,
+    NOTFOUND_PAGE, ORDERS_PAGE, PARTNER_PAGE,
     PRODUCT_PAGE,
 } from "./urls";
 import CategoryIcon from '@mui/icons-material/Category';
@@ -25,6 +25,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import Admins from "../../components/admins/Admins";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import Subscribers from "../../components/subscribers/subscribers";
 export const isAuthPages = [
     {id: 2, path: PRODUCT_PAGE, name: "News", Component: Products,icon:<DashboardIcon/>},
     {id: 8, path: CATEGORY_PAGE, name: "Works", Component: Category,icon:<CategoryIcon/>},
@@ -33,7 +34,8 @@ export const isAuthPages = [
     {id: 6, path: BANNERS_PAGE, name: "Banners", Component: Banners,icon:<InsertPhotoIcon/>},
     {id: 4, path: CONTACTS_PAGE, name: "Contact Us", Component: ContactUs,icon:<InfoIcon/>},
     {id: 7, path: INFO_PAGE, name: "Info", Component: Info,icon:<InfoIcon/>},
-    {id:13,path: ADMIN_PAGE,name:"Admins",Component:Admins,icon: <AutoFixHighIcon/>}
+    {id:13,path: ADMIN_PAGE,name:"Admins",Component:Admins,icon: <AutoFixHighIcon/>},
+    {id:189,path: PARTNER_PAGE,name:"Partners",Component:Subscribers,icon: <BuildIcon/>}
 ];
 
 

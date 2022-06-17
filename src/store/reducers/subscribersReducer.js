@@ -2,7 +2,6 @@ import { GET_SUBSCRIBERS } from "../types";
 
 const initialState = {
   subscribers: null,
-  count: null,
 };
 
 export const subscribersReducer = (state = initialState, action) => {
@@ -10,8 +9,7 @@ export const subscribersReducer = (state = initialState, action) => {
     case GET_SUBSCRIBERS:
       return {
         ...state,
-        subscribers: action.payload.subscribers,
-        count: action.payload.count,
+        subscribers: action.payload,
       };
     default:
       return state;
