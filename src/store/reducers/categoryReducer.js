@@ -10,8 +10,7 @@ export const categoryReducer = (state = initialState, action) => {
     case GET_CATEGORY:
       return {
         ...state,
-        category: action.payload.news,
-        count: action.payload.count,
+        category: action.payload,
       };
     default:
       return state;

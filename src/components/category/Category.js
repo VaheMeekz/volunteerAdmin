@@ -47,9 +47,6 @@ const Category = () => {
     const [openDelete, setOpenDelete] = React.useState(false);
     const [openAdd, setOpenAdd] = useState(false);
     const [currentId, setCurrentId] = useState(null);
-    const limit = 5;
-    const [page, setPage] = useState(0);
-    const [pages, setPages] = useState([]);
     const handleClose = () => setOpen(false);
     const handleCloseDelete = () => setOpenDelete(false);
     const handleCloseAdd = () => setOpenAdd(false);
@@ -61,25 +58,13 @@ const Category = () => {
     const [day, setDay] = useState("")
     const [search, setSearch] = useState()
     useEffect(() => {
-        dispatch(getCategoryThunk(page, limit, search));
-    }, [page, limit, search]);
+        dispatch(getCategoryThunk());
+    }, []);
 
-    useEffect(() => {
-        if (count) {
-            setPages(makeArray(Math.ceil(count / limit)));
-        }
-    }, [count, limit]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-        }, 100)
-    }, [page]);
 
     useEffect(() => {
         setCategorys(data);
     }, [data]);
-
 
     const handelDelete = () => {
         axios
@@ -140,11 +125,6 @@ const Category = () => {
         <h2 mt={3} mb={3}>
             Work
         </h2>
-        <hr/>
-        <Box style={{margin: "10px"}}>
-            <h4>Search</h4>
-            <TextField placeholder="Search" value={search} onChange={e => setSearch(e.target.value)}/>
-        </Box>
         <hr/>
         <Box m={2}>
             <Button color="secondary" variant="contained" onClick={() => setOpenAdd(true)}>
@@ -207,38 +187,6 @@ const Category = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box>
-                {search && search.length ? null : (<div className="pagBox">
-                        <div className="arrowBack">
-                            {pages.length - 1 == page ? (<ArrowBackIcon
-                                onClick={() => {
-                                    setPage(page - 1);
-                                }}
-                            />) : null}
-                        </div>
-                        {pages.length > 1 && pages.map((s) => {
-                            return (<div
-                                className={page === s ? "ActivePagItem" : "pagItem"}
-                                key={s}
-                                onClick={() => {
-                                    setPage(s);
-                                }}
-                                style={{
-                                    cursor: "pointer"
-                                }}
-                            >
-                                {s + 1}
-                            </div>);
-                        })}
-                        <div className="arrowBack">
-                            {pages.length - 1 == page ? null : (<ArrowForwardIcon
-                                onClick={() => {
-                                    setPage(page + 1);
-                                }}
-                            />)}
-                        </div>
-                    </div>)}
-            </Box>
             <Modal
                 open={open}
                 onClose={handleClose}
