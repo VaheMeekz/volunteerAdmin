@@ -15,7 +15,7 @@ import {
     INFO_PAGE,
     LOGIN_PAGE,
     NOTFOUND_PAGE, ORDERS_PAGE, PARTNER_PAGE,
-    PRODUCT_PAGE, PROJECT_PAGE,
+    PRODUCT_PAGE, PROJECT_PAGE, STATICS_PAGE,
 } from "./urls";
 import CategoryIcon from '@mui/icons-material/Category';
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -27,7 +27,8 @@ import Admins from "../../components/admins/Admins";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import Subscribers from "../../components/subscribers/subscribers";
 import Users from "../../components/users/Users";
-
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import Files from "../../components/files/Files";
 export const isAuthPages = [
     {id: 2, path: PRODUCT_PAGE, name: "News", Component: Products, icon: <DashboardIcon/>},
     {id: 8, path: CATEGORY_PAGE, name: "Works", Component: Category, icon: <CategoryIcon/>},
@@ -39,6 +40,7 @@ export const isAuthPages = [
     {id: 7, path: INFO_PAGE, name: "Info", Component: Info, icon: <InfoIcon/>},
     {id: 13, path: ADMIN_PAGE, name: "Admins", Component: Admins, icon: <AutoFixHighIcon/>},
     {id: 189, path: PARTNER_PAGE, name: "Partners", Component: Subscribers, icon: <BuildIcon/>},
+    {id: 9, path: STATICS_PAGE, name: "Files", Component: Files, icon: <UploadFileIcon/>},
 
 ];
 

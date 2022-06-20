@@ -21,3 +21,4 @@ export const GET_DELEVERY_DATA = 'GET_DELEVERY_DATA';
 export const GET_ADMINS = 'GET_ADMINS'
 export const GET_VIDEOS = 'GET_VIDEOS'
 export const GET_SINGLE_VIDEO = 'GET_SINGLE_VIDEO'
+export const GET_FILES = 'GET_FILES'
