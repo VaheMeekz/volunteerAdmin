@@ -34,8 +34,9 @@ const Files = () => {
     const data = useSelector(state => state.fileReducer.file)
     const loading = useSelector(state => state.fileReducer.loading)
     const [open, setOpen] = useState(false);
+    const [file, setFile] = useState("")
     const [forms, setForms] = useState({
-        name: "", nameHy: "", nameEn: "", file: null
+        name: "", nameHy: "", nameEn: ""
     })
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -44,26 +45,12 @@ const Files = () => {
         dispatch(getFileAC())
     }, [])
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        if (event.target.name !== "file") {
-            // setForms({...forms, [event.target.name]: event.target.value})
-            formData.append(`${event.target.name}`, event.target.value)
-        } else {
-            formData.append('file', event.target.files[0]);
-            // console.log(Object.fromEntries(formData.entries()))
-            // setForms({...forms, [event.target.name]: Object.fromEntries(formData.entries()).File})
-        }
-        console.log(formData, "+++++++++++")
-        setForms(formData)
-    }
 
-    const handleDelete = (name,id) => {
+    const handleDelete = (name, id) => {
         axios
             .post(`${baseUrl}/upload/delete`, {
                 name: name,
-                id:id
+                id: id
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -83,6 +70,33 @@ const Files = () => {
                 console.log(error);
             });
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios
+            .post(`${baseUrl}/upload`, {
+                ...forms, file
+            }, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then(function (response) {
+                if (!response.data.error) {
+                    Swal.fire({
+                        position: "center", icon: "success", title: "Succsess!", showConfirmButton: false, timer: 1500,
+                    });
+                    // setTimeout(() => {
+                    //     window.location.reload(false);
+                    // }, 500);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     return (<Box m={3} className="boxHeigth">
         <h2 mt={3} mb={3}>Delivery Settings</h2>
         <Box>
@@ -116,7 +130,8 @@ const Files = () => {
                                 </Button>
                             </TableCell>
                             <TableCell align="left">
-                                <Button color="secondary" variant="outlined" onClick={() => handleDelete(row.fileName,row.id)}>
+                                <Button color="secondary" variant="outlined"
+                                        onClick={() => handleDelete(row.fileName, row.id)}>
                                     <DeleteIcon/>
                                 </Button>
                             </TableCell>
@@ -138,15 +153,13 @@ const Files = () => {
                 </Typography>
                 <Typography id="modal-modal-description" sx={{mt: 2}}>
 
-                    <form>
+                    <form method="POST" enctype="multipart/form-data" action={`${baseUrl}/upload`}>
                         <label>File name</label>
                         <br/>
                         <TextField
                             name='name'
                             type='text'
                             variant="outlined"
-                            defaultValue={forms.name}
-                            onChange={e => handleSubmit(e)}
                         />
                         <br/>
                         <label>Name Hy</label>
@@ -155,8 +168,6 @@ const Files = () => {
                             name='nameHy'
                             type='text'
                             variant="outlined"
-                            defaultValue={forms.nameHy}
-                            onChange={e => handleSubmit(e)}
                         />
                         <br/>
                         <label>Name En</label>
@@ -165,8 +176,6 @@ const Files = () => {
                             name='nameEn'
                             type='text'
                             variant="outlined"
-                            defaultValue={forms.nameEn}
-                            onChange={e => handleSubmit(e)}
                         />
                         <Box style={{
                             margin: "10px 0"
@@ -177,8 +186,6 @@ const Files = () => {
                                 name='file'
                                 type='file'
                                 variant="outlined"
-                                defaultValue={forms.file}
-                                onChange={e => handleSubmit(e)}
                             />
                         </Box>
                         <Box style={{

@@ -49,6 +49,7 @@ const Subscribers = () => {
     const handleClose = () => setOpen(false);
     useEffect(() => {
         dispatch(getSubscribersThunk());
+        console.clear()
     }, []);
 
     const transport = (data) => {
