@@ -11,7 +11,7 @@ import {
     ABOUTUS_PAGE, ADMIN_PAGE,
     BANNERS_PAGE,
     CATEGORY_PAGE,
-    CONTACTS_PAGE,
+    CONTACTS_PAGE, EVENTS_PAGE,
     INFO_PAGE,
     LOGIN_PAGE,
     NOTFOUND_PAGE, ORDERS_PAGE, PARTNER_PAGE,
@@ -29,6 +29,7 @@ import Subscribers from "../../components/subscribers/subscribers";
 import Users from "../../components/users/Users";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Files from "../../components/files/Files";
+import Events from "../../components/events/Events";
 export const isAuthPages = [
     {id: 2, path: PRODUCT_PAGE, name: "News", Component: Products, icon: <DashboardIcon/>},
     {id: 8, path: CATEGORY_PAGE, name: "Works", Component: Category, icon: <CategoryIcon/>},
@@ -41,6 +42,7 @@ export const isAuthPages = [
     {id: 13, path: ADMIN_PAGE, name: "Admins", Component: Admins, icon: <AutoFixHighIcon/>},
     {id: 189, path: PARTNER_PAGE, name: "Partners", Component: Subscribers, icon: <BuildIcon/>},
     {id: 9, path: STATICS_PAGE, name: "Files", Component: Files, icon: <UploadFileIcon/>},
+    {id: 961, path: EVENTS_PAGE, name: "Events", Component: Events, icon: <InfoIcon/>},
 
 ];
 
