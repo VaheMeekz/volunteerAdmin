@@ -18,10 +18,10 @@ export const getHomeBannerThunk = () => {
 
 export const getAboutUsBannerThunk = () => {
     return async (dispatch) => {
-        const response = await axios.get(`${baseUrl}/videoBanner`);
+        const response = await axios.get(`${baseUrl}/aboutUsBanner`);
         dispatch({
             type: GET_ABOUT_US_BANNER,
-            payload: response.data[0]
+            payload: response.data
         })
     }
 }

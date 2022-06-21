@@ -4,7 +4,7 @@ import { GET_PRODUCTS } from "../types";
 
 export const getProductsThunk = (offset, limit,search) => {
   return async (dispatch) => {
-    const response = await axios.get(`${baseUrl}/news`, {
+    const response = await axios.get(`${baseUrl}/news/newsAdmin`, {
       params: {
         offset,
         limit,

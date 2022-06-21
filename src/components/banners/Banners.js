@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Box} from "@mui/material";
-import AboutBanner from "../bannerComponents/AboutUsBanner";
 import HomeBanner from "../bannerComponents/HomeBanner";
+import AbouUsBanner from "../bannerComponents/AboutUsBanner";
 
 const Banners = () => {
     useEffect(() => console.clear(), [])
@@ -11,8 +11,8 @@ const Banners = () => {
                 Banners Settings
             </h1>
             <HomeBanner/>
-            {/*<hr/>*/}
-            {/*<AboutBanner/>*/}
+            <hr/>
+            <AbouUsBanner/>
         </Box>
     );
 };
